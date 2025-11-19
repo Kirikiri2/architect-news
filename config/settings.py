@@ -33,11 +33,15 @@ DJANGO_APPS = [
 THIRD_PATY_APPS = [
     'rest_framework',
     'corsheaders',
+    'django_filters',
+    'rest_framework_simplejwt'
 ]
 
 # Список локальных приложений
 LOCAL_APS = [
-    'apps.auth',
+    'apps.users',
+    'apps.posts',
+    'apps.comments',
 ]
 
 # Общий список приложений
@@ -124,8 +128,15 @@ STATIC_ROOT = BASE_DIR / 'staticfiles' #Путь для собранных фа�
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Custom User Model
+AUTH_USER_MODEL = 'users.User'
+
+
 # Настройки Django Rest Framework
 REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
     'DEFAULT_PERMISSION_CLASSES':[
         'rest_framework.permissions.AllowAny', #Разрешить доступ всем
     ],
