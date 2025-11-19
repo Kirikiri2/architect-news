@@ -126,6 +126,9 @@ USE_TZ = True
 STATIC_URL = 'static/' #URL статики
 STATIC_ROOT = BASE_DIR / 'staticfiles' #Путь для собранных файлов статики
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Custom User Model
