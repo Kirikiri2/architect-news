@@ -84,62 +84,78 @@ export default function PostItemPage() {
         }
     };
 
-    if (loadingPost) return <p>Загрузка поста...</p>;
-    if (error) return <p style={{ color: "red" }}>Ошибка: {error}</p>;
-    if (!post) return <p>Пост не найден</p>;
+    if (loadingPost) return <p className="min-h-screen bg-amber-50 p-8 flex items-center justify-center text-2xl font-serif text-gray-700 italic">Загрузка поста...</p>;
+    if (error) return <p className="min-h-screen bg-amber-50 p-8 flex items-center justify-center text-xl font-serif text-red-700 border-l-4 border-red-700 pl-4 italic">Ошибка: {error}</p>;
+    if (!post) return <p className="min-h-screen bg-amber-50 p-8 flex items-center justify-center text-xl font-serif text-gray-700 italic">Пост не найден</p>;
 
     return (
-        <div>
-            <h1>{post.title}</h1>
-            {post.image && (
-                <img
-                    src={`http://127.0.0.1:8000${post.image}`}
-                    alt={post.title}
-                    style={{ maxWidth: "100%", marginBottom: "20px" }}
-                />
-            )}
-            <p>{post.content}</p>
-            <p>
-                Автор: {post.author_email} | Создано: {new Date(post.created_at).toLocaleString()}
-            </p>
-
-            <hr />
-
-            <h2>Комментарии</h2>
-            {loadingComments ? (
-                <p>Загрузка комментариев...</p>
-            ) : comments.length === 0 ? (
-                <p>Комментариев пока нет.</p>
-            ) : (
-                comments.map(comment => (
-                    <div
-                        key={comment.id}
-                        style={{ border: "1px solid #ccc", padding: "10px", marginBottom: "10px" }}
-                    >
-                        <p>{comment.content}</p>
-                        <p>
-                            Автор: {comment.author_email} | Создано: {new Date(comment.created_at).toLocaleString()}
+        <div className="min-h-screen bg-amber-50 p-8 font-serif">
+            <div className="max-w-4xl mx-auto">
+                <div className="bg-white border-2 border-gray-800 shadow-lg p-8 mb-8">
+                    <h1 className="text-4xl font-bold text-gray-900 mb-6 leading-tight tracking-tight">{post.title}</h1>
+                    {post.image && (
+                        <img
+                            src={`http://127.0.0.1:8000${post.image}`}
+                            alt={post.title}
+                            className="w-full h-96 object-cover mb-6 border-2 border-gray-800 shadow-md"
+                        />
+                    )}
+                    <p className="text-lg text-gray-800 leading-relaxed mb-6 whitespace-pre-line">{post.content}</p>
+                    <div className="border-t border-gray-300 pt-4">
+                        <p className="text-sm text-gray-700 italic">
+                            Автор: {post.author_email} | Создано: {new Date(post.created_at).toLocaleString()}
                         </p>
                     </div>
-                ))
-            )}
+                </div>
 
-            {token ? (
-                <form onSubmit={handleAddComment} style={{ marginTop: "20px" }}>
-                    <textarea
-                        value={newComment}
-                        onChange={(e) => setNewComment(e.target.value)}
-                        placeholder="Добавьте комментарий"
-                        rows={3}
-                        style={{ width: "100%" }}
-                    />
-                    <button type="submit" disabled={submitting}>
-                        {submitting ? "Отправка..." : "Отправить комментарий"}
-                    </button>
-                </form>
-            ) : (
-                <p>Войдите в систему, чтобы оставлять комментарии.</p>
-            )}
+                <div className="border-t-2 border-gray-800 my-8"></div>
+
+                <div className="bg-white border-2 border-gray-800 shadow-lg p-8">
+                    <h2 className="text-3xl font-bold text-gray-900 mb-6 border-b-2 border-gray-800 pb-3">Комментарии</h2>
+                    {loadingComments ? (
+                        <p className="text-gray-600 italic text-center py-4">Загрузка комментариев...</p>
+                    ) : comments.length === 0 ? (
+                        <p className="text-gray-600 italic text-center py-4">Комментариев пока нет.</p>
+                    ) : (
+                        <div className="space-y-4">
+                            {comments.map(comment => (
+                                <div
+                                    key={comment.id}
+                                    className="border-2 border-gray-300 bg-amber-50 p-4 shadow-sm"
+                                >
+                                    <p className="text-gray-800 mb-3 leading-relaxed">{comment.content}</p>
+                                    <p className="text-xs text-gray-600 italic border-t border-gray-300 pt-2">
+                                        Автор: {comment.author_email} | Создано: {new Date(comment.created_at).toLocaleString()}
+                                    </p>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    {token ? (
+                        <form onSubmit={handleAddComment} className="mt-8 border-t-2 border-gray-300 pt-6">
+                            <textarea
+                                value={newComment}
+                                onChange={(e) => setNewComment(e.target.value)}
+                                placeholder="Добавьте комментарий"
+                                rows={3}
+                                className="w-full p-4 border-2 border-gray-800 bg-amber-50 text-gray-900 placeholder-gray-600 font-serif focus:outline-none focus:border-gray-900 transition-colors"
+                            />
+                            <button 
+                                type="submit" 
+                                disabled={submitting}
+                                className="mt-4 bg-gray-900 text-white py-3 px-6 font-bold font-serif hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors border-2 border-gray-900 shadow-md"
+                            >
+                                {submitting ? "Отправка..." : "Отправить комментарий"}
+                            </button>
+                        </form>
+                    ) : (
+                        <p className="text-center text-gray-600 italic py-4 border-2 border-gray-300 bg-amber-50 p-4">
+                            Войдите в систему, чтобы оставлять комментарии.
+                        </p>
+                    )}
+                </div>
+            </div>
         </div>
     );
 }

@@ -67,48 +67,98 @@ export default function ProfilePage() {
         }
     };
 
-    if (loading) return <p>Загрузка профиля...</p>;
-    if (error) return <p style={{ color: "red" }}>Ошибка: {error}</p>;
-    if (!user) return <p>Пользователь не найден</p>;
+    if (loading) return <p className="min-h-screen bg-amber-50 p-8 flex items-center justify-center text-2xl font-serif text-gray-700 italic">Загрузка профиля...</p>;
+    if (error) return <p className="min-h-screen bg-amber-50 p-8 flex items-center justify-center text-xl font-serif text-red-700 border-l-4 border-red-700 pl-4 italic">Ошибка: {error}</p>;
+    if (!user) return <p className="min-h-screen bg-amber-50 p-8 flex items-center justify-center text-xl font-serif text-gray-700 italic">Пользователь не найден</p>;
 
     return (
-        <div style={{ maxWidth: "600px", margin: "0 auto" }}>
-            <h1>Профиль</h1>
-            {editing ? (
-                <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        name="username"
-                        value={formData.username}
-                        onChange={handleChange}
-                        placeholder="Имя пользователя"
-                        required
-                    />
-                    <textarea
-                        name="bio"
-                        value={formData.bio}
-                        onChange={handleChange}
-                        placeholder="О себе"
-                    />
-                    <input type="file" name="avatar" onChange={handleChange} />
-                    <button type="submit">Сохранить</button>
-                    <button type="button" onClick={() => setEditing(false)}>Отмена</button>
-                </form>
-            ) : (
-                <div>
-                    <p>Email: {user.email}</p>
-                    <p>Username: {user.username}</p>
-                    <p>Bio: {user.bio}</p>
-                    {user.avatar && (
-                        <img
-                            src={`http://127.0.0.1:8000${user.avatar}`}
-                            alt="Avatar"
-                            style={{ maxWidth: "200px" }}
-                        />
+        <div className="min-h-screen bg-amber-50 p-8 font-serif">
+            <div className="max-w-2xl mx-auto">
+                <div className="bg-white border-2 border-gray-800 shadow-lg p-8">
+                    <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center border-b-2 border-gray-800 pb-4 tracking-tight">Профиль</h1>
+                    
+                    {error && <p className="text-red-700 bg-red-50 border-l-4 border-red-700 p-4 mb-6 italic text-sm">{error}</p>}
+                    
+                    {editing ? (
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <input
+                                type="text"
+                                name="username"
+                                value={formData.username}
+                                onChange={handleChange}
+                                placeholder="Имя пользователя"
+                                required
+                                className="w-full p-4 border-2 border-gray-800 bg-amber-50 text-gray-900 placeholder-gray-600 font-serif focus:outline-none focus:border-gray-900 transition-colors"
+                            />
+                            <textarea
+                                name="bio"
+                                value={formData.bio}
+                                onChange={handleChange}
+                                placeholder="О себе"
+                                rows={4}
+                                className="w-full p-4 border-2 border-gray-800 bg-amber-50 text-gray-900 placeholder-gray-600 font-serif focus:outline-none focus:border-gray-900 transition-colors resize-none"
+                            />
+                            <div className="border-2 border-gray-800 bg-amber-50 p-4">
+                                <label className="block text-gray-700 font-semibold mb-2">Аватар:</label>
+                                <input 
+                                    type="file" 
+                                    name="avatar" 
+                                    onChange={handleChange}
+                                    className="w-full text-gray-700 font-serif"
+                                />
+                            </div>
+                            <div className="flex gap-4">
+                                <button 
+                                    type="submit"
+                                    className="flex-1 bg-gray-900 text-white py-3 px-6 font-bold font-serif hover:bg-gray-800 transition-colors border-2 border-gray-900 shadow-md"
+                                >
+                                    Сохранить
+                                </button>
+                                <button 
+                                    type="button" 
+                                    onClick={() => setEditing(false)}
+                                    className="flex-1 bg-amber-50 text-gray-900 py-3 px-6 font-bold font-serif hover:bg-amber-100 transition-colors border-2 border-gray-800 shadow-md"
+                                >
+                                    Отмена
+                                </button>
+                            </div>
+                        </form>
+                    ) : (
+                        <div className="space-y-6">
+                            <div className="flex items-start gap-6">
+                                {user.avatar && (
+                                    <img
+                                        src={`http://127.0.0.1:8000${user.avatar}`}
+                                        alt="Avatar"
+                                        className="w-32 h-32 object-cover border-2 border-gray-800 shadow-md"
+                                    />
+                                )}
+                                <div className="flex-1">
+                                    <div className="border-b border-gray-300 pb-4 mb-4">
+                                        <p className="text-lg text-gray-700">
+                                            <span className="font-semibold">Email:</span> {user.email}
+                                        </p>
+                                        <p className="text-lg text-gray-700">
+                                            <span className="font-semibold">Username:</span> {user.username}
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <p className="text-gray-800 leading-relaxed">
+                                            <span className="font-semibold">Bio:</span> {user.bio || "Нет информации о себе"}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <button 
+                                onClick={() => setEditing(true)}
+                                className="w-full bg-gray-900 text-white py-3 px-6 font-bold font-serif hover:bg-gray-800 transition-colors border-2 border-gray-900 shadow-md"
+                            >
+                                Редактировать профиль
+                            </button>
+                        </div>
                     )}
-                    <button onClick={() => setEditing(true)}>Редактировать профиль</button>
                 </div>
-            )}
+            </div>
         </div>
     );
 }

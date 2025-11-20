@@ -47,30 +47,38 @@ export default function LoginPage() {
     };
 
     return (
-        <div style={{ maxWidth: "400px", margin: "0 auto" }}>
-            <h1>Вход</h1>
-            {error && <p style={{ color: "red" }}>{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                />
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Пароль"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                />
-                <button type="submit" disabled={loading}>
-                    {loading ? "Вход..." : "Войти"}
-                </button>
-            </form>
+        <div className="min-h-screen bg-amber-50 flex items-center justify-center p-8 font-serif">
+            <div className="max-w-md w-full bg-white border-2 border-gray-800 shadow-lg p-8">
+                <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center border-b-2 border-gray-800 pb-4 tracking-tight">Вход</h1>
+                {error && <p className="text-red-700 bg-red-50 border-l-4 border-red-700 p-4 mb-6 italic text-sm">{error}</p>}
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <input
+                        type="email"
+                        name="email"
+                        placeholder="Email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        required
+                        className="w-full p-4 border-2 border-gray-800 bg-amber-50 text-gray-900 placeholder-gray-600 font-serif focus:outline-none focus:border-gray-900 transition-colors"
+                    />
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Пароль"
+                        value={formData.password}
+                        onChange={handleChange}
+                        required
+                        className="w-full p-4 border-2 border-gray-800 bg-amber-50 text-gray-900 placeholder-gray-600 font-serif focus:outline-none focus:border-gray-900 transition-colors"
+                    />
+                    <button 
+                        type="submit" 
+                        disabled={loading}
+                        className="w-full bg-gray-900 text-white py-4 px-6 font-bold font-serif text-lg hover:bg-gray-800 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors border-2 border-gray-900 shadow-md"
+                    >
+                        {loading ? "Вход..." : "Войти"}
+                    </button>
+                </form>
+            </div>
         </div>
     );
 }
